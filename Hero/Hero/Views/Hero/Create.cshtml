@@ -1,4 +1,4 @@
-﻿@model hero_csharp.Models.Hero
+@model hero_csharp.Models.Hero
 
 @{
     ViewData["Title"] = "Create";
@@ -13,14 +13,13 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="superpower" class="control-label"></label>
-                <input asp-for="superpower" class="form-control" />
-                <span asp-validation-for="superpower" class="text-danger"></span>
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="name" class="control-label"></label>
-                <input asp-for="name" class="form-control" />
-                <span asp-validation-for="name" class="text-danger"></span>
+                <label asp-for="SchoolId" class="control-label"></label>
+                <select asp-for="SchoolId" class ="form-control" asp-items="ViewBag.SchoolId"></select>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
@@ -33,6 +32,3 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}

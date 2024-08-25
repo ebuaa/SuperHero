@@ -2,10 +2,10 @@
 
 #nullable disable
 
-namespace herocsharp.Migrations
+namespace hero_csharp.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class Hero6 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

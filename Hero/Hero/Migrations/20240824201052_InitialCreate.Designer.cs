@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using hero_csharp.Data;
 
@@ -10,9 +11,11 @@ using hero_csharp.Data;
 namespace hero_csharp.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240824201052_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -20,21 +23,6 @@ namespace hero_csharp.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("HeroSuperPower", b =>
-                {
-                    b.Property<int>("HeroesId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SuperPowersId")
-                        .HasColumnType("int");
-
-                    b.HasKey("HeroesId", "SuperPowersId");
-
-                    b.HasIndex("SuperPowersId");
-
-                    b.ToTable("HeroSuperPower");
-                });
 
             modelBuilder.Entity("hero_csharp.Models.Hero", b =>
                 {
@@ -51,9 +39,14 @@ namespace hero_csharp.Migrations
                     b.Property<int>("SchoolId")
                         .HasColumnType("int");
 
+                    b.Property<int>("SuperpowerId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("SchoolId");
+
+                    b.HasIndex("SuperpowerId");
 
                     b.ToTable("Heroes");
                 });
@@ -67,7 +60,6 @@ namespace hero_csharp.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -84,43 +76,40 @@ namespace hero_csharp.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("SuperPowers");
-                });
-
-            modelBuilder.Entity("HeroSuperPower", b =>
-                {
-                    b.HasOne("hero_csharp.Models.Hero", null)
-                        .WithMany()
-                        .HasForeignKey("HeroesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("hero_csharp.Models.SuperPower", null)
-                        .WithMany()
-                        .HasForeignKey("SuperPowersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.ToTable("SuperPower");
                 });
 
             modelBuilder.Entity("hero_csharp.Models.Hero", b =>
                 {
                     b.HasOne("hero_csharp.Models.School", "School")
-                        .WithMany("Heroes")
+                        .WithMany("Hero")
                         .HasForeignKey("SchoolId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("hero_csharp.Models.SuperPower", "SuperPower")
+                        .WithMany("Hero")
+                        .HasForeignKey("SuperpowerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("School");
+
+                    b.Navigation("SuperPower");
                 });
 
             modelBuilder.Entity("hero_csharp.Models.School", b =>
                 {
-                    b.Navigation("Heroes");
+                    b.Navigation("Hero");
+                });
+
+            modelBuilder.Entity("hero_csharp.Models.SuperPower", b =>
+                {
+                    b.Navigation("Hero");
                 });
 #pragma warning restore 612, 618
         }
